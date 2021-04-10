@@ -38,18 +38,18 @@ def main(args: argparse.Namespace):
     target_webhook_url = r""
     scripts = []
 
-    tarker_a_url = os.getenv(r"TAKER_A_WEBHOOK_URL")
-    tarker_b_url = os.getenv(r"TAKER_B_WEBHOOK_URL")
+    actor_a_url = os.getenv(r"ACTOR_A_WEBHOOK_URL")
+    actor_b_url = os.getenv(r"ACTOR_B_WEBHOOK_URL")
 
     for cs_idx in trange(conversation_steps, desc=r"会話生成中..."):
         if cs_idx % 2 == 0:
             current_response = noby_response(current_response)
             current_speeker = r"a3rt"
-            target_webhook_url = tarker_a_url
+            target_webhook_url = actor_a_url
         else:
             current_response = a3rt_response(current_response)
             current_speeker = r"noby"
-            target_webhook_url = tarker_b_url
+            target_webhook_url = actor_b_url
 
         scripts.append(
             {
@@ -63,7 +63,7 @@ def main(args: argparse.Namespace):
     print(r"クエリ: ", query)
 
     if post_flag:
-        requests.post(tarker_b_url, data=json.dumps({r"text": query}))
+        requests.post(actor_b_url, data=json.dumps({r"text": query}))
 
     for item in scripts:
         print("{0}:{1}".format(item[r"actor"], item[r"dialogue"]))
