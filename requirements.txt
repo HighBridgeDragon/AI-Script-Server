@@ -1,4 +1,6 @@
 pysen
+isort
+black
 python-dotenv
 pya3rt
 tqdm
