@@ -1,0 +1,4 @@
+pysen
+python-dotenv
+pya3rt
+tqdm
