@@ -53,9 +53,9 @@ def main(args: argparse.Namespace):
 
         scripts.append(
             {
-                r"speaker": current_speeker,
+                r"actor": current_speeker,
                 r"dialogue": current_response,
-                r"webhook": target_webhook_url,
+                r"target_webhook": target_webhook_url,
             }
         )
 
@@ -66,11 +66,11 @@ def main(args: argparse.Namespace):
         requests.post(tarker_b_url, data=json.dumps({r"text": query}))
 
     for item in scripts:
-        print("{0}:{1}".format(item[r"speaker"], item[r"dialogue"]))
+        print("{0}:{1}".format(item[r"actor"], item[r"dialogue"]))
 
         if post_flag:
             requests.post(
-                item[r"webhook"], data=json.dumps({r"text": item[r"dialogue"]})
+                item[r"target_webhook"], data=json.dumps({r"text": item[r"dialogue"]})
             )
         time.sleep(1.5 + (random.randint(0, 10) - 5) * 0.1)
 
