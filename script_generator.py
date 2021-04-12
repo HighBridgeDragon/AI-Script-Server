@@ -35,21 +35,20 @@ def main(args: argparse.Namespace):
     post_flag = args.post_to_webhook
     current_response = query
     current_speeker = r""
-    target_webhook_url = r""
     scripts = []
 
-    actor_a_url = os.getenv(r"ACTOR_A_WEBHOOK_URL")
-    actor_b_url = os.getenv(r"ACTOR_B_WEBHOOK_URL")
+    noby_actor_url = os.getenv(r"NODY_ACTOR_WEBHOOK_URL")
+    a3rt_actor_url = os.getenv(r"A3RT_ACTOR_WEBHOOK_URL")
 
-    actor_converter = {r'a3rt': actor_a_url, r'noby': actor_b_url}
+    actor_converter = {r'a3rt': a3rt_actor_url, r'noby': noby_actor_url}
 
     for cs_idx in trange(conversation_steps, desc=r"会話生成中..."):
         if cs_idx % 2 == 0:
             current_response = noby_response(current_response)
-            current_speeker = r"a3rt"
+            current_speeker = r"noby"
         else:
             current_response = a3rt_response(current_response)
-            current_speeker = r"noby"
+            current_speeker = r"a3rt"
 
         scripts.append(
             {
@@ -62,7 +61,7 @@ def main(args: argparse.Namespace):
     print(r"クエリ: ", query)
 
     if post_flag:
-        requests.post(actor_b_url, data=json.dumps({r"text": query}))
+        requests.post(a3rt_actor_url, data=json.dumps({r"text": query}))
 
     for item in scripts:
         print("{0}:{1}".format(item[r"actor"], item[r"dialogue"]))
